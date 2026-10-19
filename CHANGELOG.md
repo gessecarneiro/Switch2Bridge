@@ -1,5 +1,13 @@
 # Histórico
 
+## 0.3.2 — Tela de testes
+
+- Controle redesenhado em vetor, com carcaça em camadas, gatilhos, direcional em cruz e movimento dos analógicos.
+- GL e GR separados da vista frontal, com identificação de botões traseiros.
+- Estados de repouso, pressionado e já testado com cores distintas no desenho e na lista.
+- Nova proporção dos painéis, cartões compactos dos analógicos e legenda visual.
+- Desenho estático compartilhado e congelado, preservando a atualização apenas quando as entradas mudam.
+
 ## 0.3.1 — Switch2Bridge
 
 - Novo nome no aplicativo, nos executáveis, nos diagnósticos e no código.

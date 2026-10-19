@@ -1,5 +1,12 @@
 # Validação
 
+## Switch2Bridge 0.3.2
+
+- Tela de testes redesenhada; não há alteração no protocolo USB, remapeamento ou backend virtual.
+- Prévia renderizada em 1264 × 860 e 1044 × 700, com entradas simuladas em repouso e pressionadas. Na janela menor, os cartões inferiores ficam acessíveis pela rolagem vertical.
+- 1.307 verificações de lógica e 14 verificações WPF aprovadas, incluindo a preservação do desenho quando não há mudança e a suspensão visual ao minimizar.
+- Nenhum novo teste de hardware nesta alteração visual.
+
 ## Switch2Bridge 0.3.1
 
 - Compilação x64 a partir dos fontes preparados para o GitHub.
@@ -7,7 +14,7 @@
 - Interface renderizada com a nova identidade e inspecionada.
 - Benchmark atual: 750/750 alterações entregues; p50 0,0496 ms, p95 0,1284 ms e p99 0,1498 ms, com backend falso. Execução local única; não representa latência em jogo.
 - Script de comparação com executável legado 0.2.1 executado com sucesso.
-- A compilação e os testes do GitHub Actions ainda dependem da primeira execução no repositório publicado.
+- Compilação e testes aprovados no [GitHub Actions, execução inicial](https://github.com/gessecarneiro/Switch2Bridge/actions/runs/39295498371).
 - Não foi repetido o teste de hardware na versão 0.3.1; os resultados de hardware abaixo pertencem à base 0.3.0.
 
 ## Base 0.3.0

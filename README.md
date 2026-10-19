@@ -2,7 +2,9 @@
 
 Use o **Nintendo Switch 2 Pro Controller por USB no Windows**, com teste de entradas, perfis e saída de controle Xbox 360 para jogos compatíveis com XInput.
 
-Aplicativo independente em C# e WPF para Windows 10/11 x64 e .NET Framework 4.8. Versão atual: **0.3.1**. O suporte ainda é experimental; o projeto não tem vínculo com a Nintendo.
+Aplicativo independente em C# e WPF para Windows 10/11 x64 e .NET Framework 4.8. Versão atual: **0.3.2**. O suporte ainda é experimental; o projeto não tem vínculo com a Nintendo.
+
+![Tela de testes do Switch2Bridge com entradas simuladas](docs/button-test.png)
 
 ## Recursos
 
@@ -72,7 +74,7 @@ Múltiplas fontes podem acionar a mesma saída; soltar uma mantém a saída pres
 
 Os testes USB de início/parada são opcionais: `bin\tests\ProtocolTests.exe --usb-stress`. Feche o aplicativo antes de executar testes que acessem hardware.
 
-A versão 0.3.1 passou em 1.307 verificações de lógica e 14 da interface. A base 0.3.0 também foi testada localmente com USB, ViGEmBus e reconhecimento por XInput. O comportamento em jogos ainda precisa de validação mais ampla. Consulte [VALIDACAO.md](VALIDACAO.md) para o escopo e [PERFORMANCE.md](PERFORMANCE.md) para métodos e resultados. Os números de desempenho não medem o tempo do botão até o jogo ou a tela.
+A versão 0.3.2 passou em 1.307 verificações de lógica e 14 da interface. A base 0.3.0 também foi testada localmente com USB, ViGEmBus e reconhecimento por XInput. O comportamento em jogos ainda precisa de validação mais ampla. Consulte [VALIDACAO.md](VALIDACAO.md) para o escopo e [PERFORMANCE.md](PERFORMANCE.md) para métodos e resultados. Os números de desempenho não medem o tempo do botão até o jogo ou a tela.
 
 Atalhos: **Ctrl+1 a Ctrl+5** alternam abas; **Ctrl+Enter** inicia ou para a saída Xbox. Logs locais ficam em `Switch2Bridge-session.log`. Perfis, logs, diagnósticos e binários gerados são ignorados pelo Git.
 
