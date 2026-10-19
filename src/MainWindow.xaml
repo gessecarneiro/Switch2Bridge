@@ -1,0 +1,104 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Switch2Bridge · Controle no Windows" Width="1280" Height="900" MinWidth="1060" MinHeight="740" Background="#101215" Foreground="#F0F2F5" FontFamily="Segoe UI" WindowStartupLocation="CenterScreen">
+ <Window.Resources>
+  <SolidColorBrush x:Key="Muted" Color="#969CA8"/>
+  <Style TargetType="TextBlock"><Setter Property="TextWrapping" Value="Wrap"/></Style>
+  <Style TargetType="TextBox"><Setter Property="Background" Value="#111418"/><Setter Property="Foreground" Value="#ECF1F5"/><Setter Property="BorderBrush" Value="#485361"/><Setter Property="Padding" Value="10,8"/></Style>
+  <Style TargetType="ComboBox"><Setter Property="Foreground" Value="#172119"/><Setter Property="Background" Value="#DEE8E2"/><Setter Property="Padding" Value="8,6"/><Setter Property="MinHeight" Value="32"/></Style>
+  <Style TargetType="CheckBox"><Setter Property="Foreground" Value="#DCE5DF"/><Setter Property="Margin" Value="0,0,20,12"/></Style>
+  <Style TargetType="Button">
+   <Setter Property="Background" Value="#282D35"/><Setter Property="Foreground" Value="#EEF1F5"/><Setter Property="Padding" Value="16,10"/><Setter Property="Margin" Value="0,0,8,0"/><Setter Property="BorderThickness" Value="0"/><Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Border x:Name="B" Background="{TemplateBinding Background}" CornerRadius="7" Padding="{TemplateBinding Padding}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="B" Property="Opacity" Value="0.8"/></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="B" Property="BorderBrush" Value="#65E4B5"/><Setter TargetName="B" Property="BorderThickness" Value="2"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <Style x:Key="Card" TargetType="Border"><Setter Property="Background" Value="#1A1D23"/><Setter Property="BorderBrush" Value="#2A2E36"/><Setter Property="BorderThickness" Value="1"/><Setter Property="CornerRadius" Value="12"/><Setter Property="Padding" Value="20"/></Style>
+ </Window.Resources>
+ <Grid>
+  <Grid.ColumnDefinitions><ColumnDefinition Width="210"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+  <Border Background="#16191E" BorderBrush="#292D34" BorderThickness="0,0,1,0" Padding="20,30">
+   <DockPanel LastChildFill="True">
+    <StackPanel DockPanel.Dock="Top">
+     <TextBlock Text="S2 / BRIDGE" FontSize="20" FontWeight="Bold" Foreground="#65E4B5"/>
+     <TextBlock Text="CONTROLE NO WINDOWS" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,7,0,35"/>
+     <Button x:Name="NavTest" Content="01   Teste de entradas" Background="#25453C" HorizontalContentAlignment="Left" Margin="0,0,0,9"/>
+     <Button x:Name="NavProfiles" Content="02   Perfis e botões" Margin="0,0,0,9"/>
+     <Button x:Name="NavOutput" Content="03   Saída Xbox" Margin="0,0,0,9"/>
+     <Button x:Name="NavDiag" Content="04   Diagnóstico" Margin="0,0,0,9"/>
+     <Button x:Name="NavRoadmap" Content="05   Projeto" Margin="0,0,0,9"/>
+    </StackPanel>
+    <StackPanel DockPanel.Dock="Bottom">
+     <Border BorderBrush="#353B43" BorderThickness="1" CornerRadius="8" Padding="13">
+      <StackPanel><TextBlock Text="PERFIL ATIVO" FontSize="10" Foreground="#65E4B5"/><TextBlock x:Name="ActiveProfileLabel" Text="Posição Xbox" FontWeight="SemiBold" Margin="0,9,0,9"/><TextBlock x:Name="OutputBadge" Text="○  Xbox parado" FontSize="12" Foreground="{StaticResource Muted}"/></StackPanel>
+     </Border>
+     <TextBlock Text="v0.3.1 · experimental" FontSize="11" Foreground="{StaticResource Muted}" Margin="0,18,0,0"/>
+    </StackPanel>
+    <Grid/>
+   </DockPanel>
+  </Border>
+  <ScrollViewer x:Name="MainScroll" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel Margin="30,28,30,28">
+    <Grid Margin="0,0,0,22"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+     <StackPanel><TextBlock Text="ÁREA DE TESTES" FontSize="11" Foreground="#65E4B5"/><TextBlock Text="Seu controle, em tempo real." FontSize="29" FontWeight="SemiBold" Margin="0,7,0,6"/><TextBlock Text="Pressione os botões e mova os analógicos para conferir cada entrada." Foreground="{StaticResource Muted}" FontSize="13"/></StackPanel>
+     <Border Grid.Column="1" CornerRadius="18" Background="#242A31" Padding="14,9" VerticalAlignment="Top" Margin="12,4,0,0"><TextBlock x:Name="Connection" Text="●  Aguardando USB" FontSize="12"/></Border>
+    </Grid>
+    <Border x:Name="Banner" Background="#222B2C" CornerRadius="8" Padding="15,12" Margin="0,0,0,18"><TextBlock x:Name="BannerText" Text="Conecte o controle com um cabo USB de dados. A detecção é automática." Foreground="#BDD4CC" FontSize="12"/></Border>
+    <StackPanel x:Name="TestPage">
+     <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="1.85*"/><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <Border Style="{StaticResource Card}" Padding="18,16">
+       <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="320"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Grid><TextBlock Text="VISUALIZAÇÃO DO CONTROLE" FontSize="11" Foreground="{StaticResource Muted}"/><TextBlock x:Name="Tested" Text="0 / 21 testados" HorizontalAlignment="Right" FontSize="11" Foreground="#65E4B5"/></Grid>
+        <Grid x:Name="ControllerHost" Grid.Row="1"/>
+        <TextBlock Grid.Row="2" Text="Verde: pressionado agora   ·   Contorno: já testado" HorizontalAlignment="Center" Foreground="{StaticResource Muted}" FontSize="11"/>
+       </Grid>
+      </Border>
+      <Border Grid.Column="2" Style="{StaticResource Card}" Padding="16"><StackPanel><Grid><TextBlock Text="BOTÕES" Foreground="{StaticResource Muted}" FontSize="11"/><TextBlock x:Name="PressedCount" Text="0 ativos" HorizontalAlignment="Right" Foreground="#65E4B5" FontSize="11"/></Grid><UniformGrid x:Name="ButtonGrid" Columns="3" Margin="-3,13,-3,0"/><TextBlock Text="ZL e ZR são gatilhos digitais (0 ou 1)." FontSize="11" Margin="0,12,0,0" Foreground="{StaticResource Muted}"/></StackPanel></Border>
+     </Grid>
+     <Grid Margin="0,16,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/><ColumnDefinition Width="1.1*"/></Grid.ColumnDefinitions>
+      <Border Style="{StaticResource Card}" Padding="16"><StackPanel><TextBlock Text="ANALÓGICO ESQUERDO" FontSize="11" Foreground="{StaticResource Muted}"/><Grid x:Name="LeftHost" Height="125"/><TextBlock x:Name="LeftValue" Text="X +0.000   Y +0.000" FontFamily="Consolas" HorizontalAlignment="Center" FontSize="12"/><TextBlock x:Name="LeftRaw" Text="Sem amostra" HorizontalAlignment="Center" Foreground="{StaticResource Muted}" FontSize="10" Margin="0,5,0,0"/></StackPanel></Border>
+      <Border Grid.Column="2" Style="{StaticResource Card}" Padding="16"><StackPanel><TextBlock Text="ANALÓGICO DIREITO" FontSize="11" Foreground="{StaticResource Muted}"/><Grid x:Name="RightHost" Height="125"/><TextBlock x:Name="RightValue" Text="X +0.000   Y +0.000" FontFamily="Consolas" HorizontalAlignment="Center" FontSize="12"/><TextBlock x:Name="RightRaw" Text="Sem amostra" HorizontalAlignment="Center" Foreground="{StaticResource Muted}" FontSize="10" Margin="0,5,0,0"/></StackPanel></Border>
+      <Border Grid.Column="4" Style="{StaticResource Card}" Padding="16"><StackPanel><TextBlock Text="AJUSTES DO TESTE" FontSize="11" Foreground="{StaticResource Muted}"/><Grid Margin="0,18,0,8"><TextBlock Text="Zona morta radial" FontSize="12"/><TextBlock x:Name="ZoneValue" Text="8%" HorizontalAlignment="Right" Foreground="#65E4B5" FontSize="12"/></Grid><Slider x:Name="Zone" Minimum="0" Maximum="30" Value="8" TickFrequency="1" IsSnapToTickEnabled="True"/><Button x:Name="Center" Content="Centralizar analógicos" Margin="0,17,0,0" Padding="10,8"/><TextBlock Text="Solte os analógicos antes de centralizar. Ajustes salvos no perfil ativo." FontSize="10" Foreground="{StaticResource Muted}" Margin="0,10,0,0"/></StackPanel></Border>
+     </Grid>
+     <Grid Margin="0,18,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+      <StackPanel><TextBlock x:Name="LastEvent" Text="Aguardando a primeira entrada…" FontSize="13"/><TextBlock x:Name="Rate" Text="0 relatórios/s · nenhum dado recebido" FontSize="11" Foreground="{StaticResource Muted}" Margin="0,5,0,0"/></StackPanel>
+      <StackPanel Grid.Column="1" Orientation="Horizontal"><Button x:Name="Reset" Content="Limpar teste"/><Button x:Name="Demo" Content="Experimentar demonstração" Background="#65E4B5" Foreground="#10231B" Margin="0"/></StackPanel>
+     </Grid>
+    </StackPanel>
+    <StackPanel x:Name="ProfilesPage" Visibility="Collapsed">
+     <Border Style="{StaticResource Card}" Margin="0,0,0,16"><StackPanel>
+      <TextBlock Text="Um perfil para cada jeito de jogar." FontSize="24" FontWeight="SemiBold"/>
+      <TextBlock Text="Os ajustes são aplicados na hora e salvos automaticamente nesta pasta. A janela de testes continua mostrando os botões físicos." Foreground="{StaticResource Muted}" Margin="0,9,0,18"/>
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="ESCOLHER PERFIL" FontSize="10" Foreground="#65E4B5" Margin="0,0,0,7"/><ComboBox x:Name="ProfilePicker"/></StackPanel><StackPanel Grid.Column="2"><TextBlock Text="NOME DO PERFIL" FontSize="10" Foreground="#65E4B5" Margin="0,0,0,7"/><TextBox x:Name="ProfileName" MaxLength="80"/></StackPanel></Grid>
+      <WrapPanel Margin="0,16,0,0"><Button x:Name="SaveProfile" Content="Salvar agora"/><Button x:Name="CopyProfile" Content="Criar cópia"/><Button x:Name="ImportProfile" Content="Importar…"/><Button x:Name="ExportProfile" Content="Exportar…"/></WrapPanel>
+      <TextBlock x:Name="ProfileSaveStatus" Text="Perfil salvo" FontSize="11" Foreground="#65E4B5" Margin="0,12,0,0"/>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}" Margin="0,0,0,16"><StackPanel>
+      <TextBlock Text="Botão físico → botão Xbox" FontSize="19" FontWeight="SemiBold"/>
+      <TextBlock Text="Inclui C, Captura, GL e GR. Mais de um botão físico pode acionar a mesma saída. Direções opostas se anulam." Foreground="{StaticResource Muted}" Margin="0,8,0,14"/>
+      <WrapPanel Margin="0,0,0,12"><Button x:Name="PresetXbox" Content="Padrão: posição Xbox"/><Button x:Name="PresetNintendo" Content="Padrão: letras Nintendo"/></WrapPanel>
+      <TextBlock Text="Posição Xbox: B → A, A → B, Y → X, X → Y. Letras Nintendo: A → A, B → B, X → X, Y → Y." Foreground="{StaticResource Muted}" FontSize="11" Margin="0,0,0,12"/>
+      <UniformGrid x:Name="MappingGrid" Columns="2"/>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Analógicos" FontSize="19" FontWeight="SemiBold"/><TextBlock Text="A zona morta e a centralização da tela de testes também são salvas neste perfil. As inversões abaixo afetam a saída Xbox." Foreground="{StaticResource Muted}" Margin="0,8,0,18"/><WrapPanel><CheckBox x:Name="InvertLX" Content="Inverter X esquerdo"/><CheckBox x:Name="InvertLY" Content="Inverter Y esquerdo"/><CheckBox x:Name="InvertRX" Content="Inverter X direito"/><CheckBox x:Name="InvertRY" Content="Inverter Y direito"/><CheckBox x:Name="SwapSticks" Content="Trocar analógicos"/></WrapPanel></StackPanel></Border>
+    </StackPanel>
+    <StackPanel x:Name="OutputPage" Visibility="Collapsed">
+     <Border Style="{StaticResource Card}" Margin="0,0,0,16"><StackPanel><TextBlock Text="Latência do aplicativo" FontSize="19" FontWeight="SemiBold"/><TextBlock x:Name="PerformanceMetrics" Text="Aguardando alterações de saída para medir…" FontFamily="Consolas" FontSize="13" Foreground="#65E4B5" Margin="0,12,0,10"/><TextBlock Text="Mede da conclusão da leitura HID até o driver aceitar uma alteração de saída. Janela das últimas 4.096 amostras, atualizada uma vez por segundo. Não inclui o tempo do botão até o PC nem a resposta do jogo ou da tela. Movimente os analógicos ou pressione botões com a saída Xbox ativa para coletar amostras." FontSize="11" Foreground="{StaticResource Muted}"/></StackPanel></Border>
+     <Border Style="{StaticResource Card}" Margin="0,0,0,16"><StackPanel>
+      <TextBlock Text="Seu Switch 2 como um Xbox 360." FontSize="24" FontWeight="SemiBold"/>
+      <TextBlock Text="Inicie a saída para que jogos compatíveis com XInput recebam o perfil ativo. Mantenha o Switch2Bridge aberto durante o jogo." Foreground="{StaticResource Muted}" Margin="0,10,0,20"/>
+      <Border Background="#111A16" Padding="16" CornerRadius="8"><TextBlock x:Name="OutputStatus" Text="Saída Xbox parada" Foreground="#65E4B5" FontSize="17"/></Border>
+      <WrapPanel Margin="0,18,0,0"><Button x:Name="ToggleOutput" Content="Iniciar saída Xbox" Background="#65E4B5" Foreground="#10231B"/><Button x:Name="DriverPage" Content="Página oficial do driver…"/></WrapPanel>
+      <TextBlock Text="É necessário instalar o driver ViGEmBus 1.22.0 pela página oficial. Ele é um projeto arquivado, usado aqui como backend inicial de compatibilidade. A instalação precisa da autorização do Windows. Depois retorne e clique em Iniciar saída Xbox." Foreground="{StaticResource Muted}" Margin="0,18,0,0"/>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}" Margin="0,0,0,16"><StackPanel><TextBlock Text="Prévia da saída do perfil" FontSize="19" FontWeight="SemiBold"/><TextBlock x:Name="MappedSource" Text="Aguardando entrada física" Foreground="{StaticResource Muted}" Margin="0,12,0,12"/><Border Background="#111418" Padding="18" CornerRadius="8"><TextBlock x:Name="MappedReport" FontFamily="Consolas" FontSize="16" Text="Botões 0x0000  LT 0  RT 0"/></Border><TextBlock Text="Essa prévia pode funcionar antes da instalação do driver. O indicador verde de Xbox ativo confirma que o dispositivo virtual foi criado." Foreground="{StaticResource Muted}" FontSize="12" Margin="0,12,0,0"/></StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Durante o jogo" FontSize="19" FontWeight="SemiBold"/><TextBlock Foreground="{StaticResource Muted}" Margin="0,12,0,0">• Ao perder dados por 250 ms, a saída volta ao neutro para evitar botões presos.<LineBreak/>• Ao fechar ou parar a saída, o controle virtual é removido.<LineBreak/>• A demonstração nunca envia comandos ao controle virtual.<LineBreak/>• Se houver comandos duplicados, desative o Steam Input para esse jogo e deixe apenas um programa fazendo o remapeamento.<LineBreak/>• Vibração, giroscópio e Bluetooth ainda não fazem parte desta versão.</TextBlock></StackPanel></Border>
+    </StackPanel>
+    <StackPanel x:Name="DiagPage" Visibility="Collapsed">
+     <Border Style="{StaticResource Card}" Margin="0,0,0,16"><StackPanel><TextBlock Text="Ativar a interface USB no Windows" FontSize="18" FontWeight="SemiBold"/><TextBlock Text="Se o driver WinUSB foi instalado sem registrar sua interface, o controle aparece no Windows, mas não inicia. O botão abaixo registra a interface apenas para o Pro Controller do Switch 2 (057E:2069, MI_01), preservando os drivers HID e áudio e os registros existentes. O Windows solicitará autorização de administrador. Depois desconecte e reconecte o cabo USB." Foreground="{StaticResource Muted}" Margin="0,10,0,14"/><Button x:Name="SetupUsb" Content="Configurar USB (administrador)" HorizontalAlignment="Left" Background="#25453C"/></StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Diagnóstico da conexão" FontSize="22" FontWeight="SemiBold"/><TextBlock Text="Dispositivo esperado: Nintendo 057E:2069. Esta versão lê um controle por USB." Margin="0,10,0,18" Foreground="{StaticResource Muted}"/><StackPanel Orientation="Horizontal"><Button x:Name="Reconnect" Content="Reconectar USB"/><Button x:Name="Export" Content="Exportar diagnóstico…"/></StackPanel><TextBlock Text="ÚLTIMO RELATÓRIO HID" FontSize="11" Foreground="#65E4B5" Margin="0,24,0,10"/><TextBox x:Name="Hex" IsReadOnly="True" Text="Nenhum relatório recebido." TextWrapping="Wrap" FontFamily="Consolas" Background="#111418" Foreground="#B9C7D6" BorderThickness="0" Padding="12" MinHeight="100"/><TextBlock Text="EVENTOS DA SESSÃO" FontSize="11" Foreground="#65E4B5" Margin="0,22,0,10"/><TextBox x:Name="Logs" IsReadOnly="True" FontFamily="Consolas" FontSize="12" Background="#111418" Foreground="#B9C7D6" BorderThickness="0" Padding="12" Height="260" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/></StackPanel></Border>
+     <TextBlock Text="Sem resposta? Confira o cabo e a porta USB. Se houver disputa pelo dispositivo, feche Steam, emuladores e outros leitores e use Reconectar USB. Bluetooth não está implementado nesta versão." Foreground="{StaticResource Muted}" Margin="0,18,0,0"/>
+    </StackPanel>
+    <StackPanel x:Name="RoadmapPage" Visibility="Collapsed">
+     <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Seu controle no Windows." FontSize="26" FontWeight="SemiBold"/><TextBlock Text="Switch2Bridge 0.3.1 · projeto independente para Windows." Foreground="{StaticResource Muted}" Margin="0,10,0,28"/><TextBlock Text="01 / Leitura física por USB" FontSize="18" Foreground="#65E4B5"/><TextBlock Text="Detecção, inicialização, 21 botões, analógicos e diagnóstico. O fluxo físico foi confirmado neste computador na versão 0.1.1." Margin="0,8,0,25"/><TextBlock Text="02 / Perfis e remapeamento" FontSize="18" Foreground="#65E4B5"/><TextBlock Text="Perfis XML portáteis com salvamento automático, cópia, importação e exportação. Remapeie os 21 botões, ajuste a zona morta, calibre o centro, inverta e troque os analógicos. A troca de perfil é manual." Margin="0,8,0,25" Foreground="{StaticResource Muted}"/><TextBlock Text="03 / Saída Xbox 360" FontSize="18" Foreground="#65E4B5"/><TextBlock Text="Backend ViGEmBus implementado, com criação, atualização e remoção do controle virtual e liberação por falta de dados. Requer o driver oficial e validação prática após sua instalação. Backend inicial arquivado; a interface permite substituir essa dependência no futuro." Margin="0,8,0,25" Foreground="{StaticResource Muted}"/><TextBlock Text="04 / Próximas etapas" FontSize="18"/><TextBlock Text="Bluetooth LE, vibração, giroscópio e seleção automática de perfil por jogo. Esses recursos ainda não estão implementados." Margin="0,8,0,0" Foreground="{StaticResource Muted}"/></StackPanel></Border>
+    </StackPanel>
+   </StackPanel>
+  </ScrollViewer>
+ </Grid>
+</Window>
