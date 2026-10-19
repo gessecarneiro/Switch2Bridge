@@ -43,8 +43,8 @@ namespace Switch2Bridge {
             Find<Grid>("ControllerHost").Children.Add(pad); Find<Grid>("LeftHost").Children.Add(left); Find<Grid>("RightHost").Children.Add(right);
             foreach(string name in ControllerState.Names) {
                 string label=Label(name);
-                var text=new TextBlock { Text=label, HorizontalAlignment=HorizontalAlignment.Center, VerticalAlignment=VerticalAlignment.Center, FontSize=11, Foreground=Paint.Ink };
-                var b=new Border { Child=text, Background=Paint.Dark, BorderBrush=Paint.Brush("#414957"), BorderThickness=new Thickness(1), CornerRadius=new CornerRadius(5), Margin=new Thickness(3), Height=31, ToolTip=name };
+                var text=new TextBlock { Text=label, HorizontalAlignment=HorizontalAlignment.Center, VerticalAlignment=VerticalAlignment.Center, FontSize=11, FontWeight=FontWeights.SemiBold, Foreground=Paint.Ink };
+                var b=new Border { Child=text, Background=Paint.Brush("#1C2632"), BorderBrush=Paint.Brush("#364353"), BorderThickness=new Thickness(1), CornerRadius=new CornerRadius(7), Margin=new Thickness(3), Height=30, ToolTip=name };
                 Find<System.Windows.Controls.Primitives.UniformGrid>("ButtonGrid").Children.Add(b); keys[name]=b; labels[name]=text;
             }
             Button("NavTest",delegate { Page("TestPage","NavTest"); }); Button("NavDiag",delegate { Page("DiagPage","NavDiag"); }); Button("NavRoadmap",delegate { Page("RoadmapPage","NavRoadmap"); });
@@ -79,7 +79,7 @@ namespace Switch2Bridge {
             window.Closed += delegate { closed=true; timer.Stop();usb.Dispose();output.Dispose();try { SaveCurrentProfile(); }catch(Exception e){Log("Perfil não salvo: "+e.Message);} };
             timer.Interval=TimeSpan.FromMilliseconds(33); timer.Tick+=delegate { Tick(); }; timer.Start();
             window.StateChanged+=delegate{timer.Interval=TimeSpan.FromMilliseconds(window.WindowState==WindowState.Minimized?1000:33);forceVisual=true;};
-            Log("Switch2Bridge 0.3.1 · saída por evento, métricas USB → driver e perfis isolados.");
+            Log("Switch2Bridge 0.3.2 · saída por evento, métricas USB → driver e perfis isolados.");
             usb.Start();
         }
         static string Label(string name) {
@@ -146,7 +146,7 @@ namespace Switch2Bridge {
                 pad.State=s;pad.Tested=tested;
                 if(padChanged)
                 foreach(string b in ControllerState.Names) {
-                    bool active=s.Buttons.Contains(b); keys[b].Background=active?Paint.Green:Paint.Dark; keys[b].BorderBrush=tested.Contains(b)?Paint.Green:Paint.Brush("#414957"); labels[b].Foreground=active?Paint.Dark:Paint.Ink;
+                    bool active=s.Buttons.Contains(b); keys[b].Background=active?Paint.Green:tested.Contains(b)?Paint.Brush("#243B34"):Paint.Brush("#1C2632"); keys[b].BorderBrush=tested.Contains(b)?Paint.Brush("#4D9A80"):Paint.Brush("#364353"); labels[b].Foreground=active?Paint.Dark:Paint.Ink;
                 }
                 double zone=Find<Slider>("Zone").Value/100;
                 double lx=fresh?ControllerState.Normalize(s.LX,centers[0]):0, ly=fresh?ControllerState.Normalize(s.LY,centers[1]):0;
@@ -177,7 +177,7 @@ namespace Switch2Bridge {
             if(dialog.ShowDialog(window)!=true)return;
             try {
                 ControllerState state;string status;string[] logLines;uint seen;lock(gate){state=latest;status=connection;logLines=lines.ToArray();seen=testedBits;}
-                string report="Switch2Bridge 0.3.1\r\nData: "+DateTime.Now.ToString("s")+"\r\nSistema: "+Environment.OSVersion+"\r\nModo: "+(demo?"simulado":"USB")+"\r\nEstado: "+status+"\r\nPerfil: "+activeProfile.Name+"\r\nSaída Xbox: "+outputStatus+"\r\nDispositivo esperado: 057E:2069\r\nCentro: "+string.Join(",",centers)+"\r\nZona morta: "+Find<Slider>("Zone").Value+"%\r\nTestados (máscara): 0x"+seen.ToString("X")+"\r\nRelatório: "+BitConverter.ToString(state.Report)+"\r\n\r\n"+output.Performance+"\r\n\r\n"+string.Join("\r\n",logLines);
+                string report="Switch2Bridge 0.3.2\r\nData: "+DateTime.Now.ToString("s")+"\r\nSistema: "+Environment.OSVersion+"\r\nModo: "+(demo?"simulado":"USB")+"\r\nEstado: "+status+"\r\nPerfil: "+activeProfile.Name+"\r\nSaída Xbox: "+outputStatus+"\r\nDispositivo esperado: 057E:2069\r\nCentro: "+string.Join(",",centers)+"\r\nZona morta: "+Find<Slider>("Zone").Value+"%\r\nTestados (máscara): 0x"+seen.ToString("X")+"\r\nRelatório: "+BitConverter.ToString(state.Report)+"\r\n\r\n"+output.Performance+"\r\n\r\n"+string.Join("\r\n",logLines);
                 File.WriteAllText(dialog.FileName,report,Encoding.UTF8);Log("Diagnóstico salvo localmente.");
             } catch(Exception e) { MessageBox.Show(window,e.Message,"Não foi possível salvar",MessageBoxButton.OK,MessageBoxImage.Error); }
         }
