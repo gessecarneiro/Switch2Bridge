@@ -1,0 +1,29 @@
+name: Windows build and tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Compile and test
+        shell: powershell
+        run: ./build.ps1 -Test
+      - name: Prepare portable app
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Path dist | Out-Null
+          Copy-Item bin/Switch2Bridge.exe, bin/Switch2Bridge.exe.config, README.md, LICENSE, THIRD_PARTY_NOTICES.md -Destination dist
+      - name: Upload portable app
+        uses: actions/upload-artifact@v7
+        with:
+          name: Switch2Bridge-windows-x64
+          path: dist/
+          if-no-files-found: error
